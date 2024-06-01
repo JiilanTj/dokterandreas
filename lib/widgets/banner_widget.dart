@@ -27,6 +27,14 @@ class BannerWidget extends StatelessWidget {
           image: NetworkImage(imageUrl),
           fit: fit,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 4,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
       ),
     );
   }

@@ -42,7 +42,7 @@ class _MySearchBarState extends State<MySearchBar> {
         child: Row(
           children: [
             Icon(Icons.menu, color: Colors.grey[600]),
-            SizedBox(width: 15), // Adjust the width as needed
+            SizedBox(width: 15), // Sesuaikan lebarnya sesuai kebutuhan
             Expanded(
               child: TextField(
                 controller: widget.controller,
@@ -71,7 +71,7 @@ class _MySearchBarState extends State<MySearchBar> {
                       minHeight: 12,
                     ),
                     child: Text(
-                      '3', // Example item count, this should be dynamic
+                      '3', // Contoh jumlah item, ini seharusnya dinamis
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 8,
