@@ -3,6 +3,7 @@ import 'package:dokterandreas/widgets/search_bar.dart';
 import 'package:dokterandreas/constants.dart';
 import 'package:dokterandreas/widgets/banner_widget.dart';
 import 'package:dokterandreas/widgets/horizontal_boxes.dart';
+import 'package:dokterandreas/models/product.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String selectedDropdownValue = 'Terlaris';
   final TextEditingController _searchController = TextEditingController();
+  List<Product> products = Product.getDummyProducts();
 
   @override
   void dispose() {
@@ -84,20 +86,102 @@ class _HomePageState extends State<HomePage> {
                           child: Text(
                             value,
                             style: TextStyle(
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.w400),
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         );
                       }).toList(),
-                      icon:
-                          Icon(Icons.arrow_drop_down, color: Colors.grey[700]),
+                      icon: Icon(Icons.arrow_drop_down, color: Colors.grey[700]),
                       iconSize: 24,
                       underline: SizedBox(),
+                    ),
+                    Spacer(),
+                    Row(
+                      children: [
+                        Icon(Icons.filter_list, color: Colors.grey[700]),
+                        SizedBox(width: 5),
+                        Text(
+                          'Filters',
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                      ],
                     ),
                   ],
                 ),
               ),
-              // Add other widgets below as needed
+              SizedBox(height: 16),
+              GridView.count(
+  crossAxisCount: 2,
+  shrinkWrap: true,
+  physics: NeverScrollableScrollPhysics(),
+  childAspectRatio: 2 / 3, // Adjust this aspect ratio as needed
+  children: products.map((product) {
+    return Container(
+      margin: EdgeInsets.all(8),
+      height: 150, // Set the height here
+      child: Card(
+        elevation: 4,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                product.image,
+                width: double.infinity,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    '\Rp ${product.price - product.discount}',
+                  ),
+                  Text(
+                    '\Rp ${product.price}',
+                    style: TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                      color: Colors.red,
+                    ),
+                  ),
+                  if (product.stock > 0)
+                    Text(
+                      'Stock Available: ${product.stock}',
+                    )
+                  else
+                    Text(
+                      'Out of Stock',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }).toList(),
+),
+
             ],
           ),
         ),
